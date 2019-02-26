@@ -1,0 +1,28 @@
+/* Custom Stylesheet */
+
+
+body {
+	color: #fff;
+	font-family:Monospace;
+	font-size:13px;
+	text-align:center;
+	font-weight: bold;
+
+	background-color: #000;
+	margin: 0px;
+	overflow: hidden;
+}
+
+#all_buttons{
+	position: absolute;
+    top: 85%;
+    width: 98%;
+}
+
+#info {
+	position: absolute;
+	padding: 10px;
+	width: 100%;
+	text-align: center;
+	color: #000000;
+}
