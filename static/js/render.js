@@ -4,6 +4,9 @@ var clock = new THREE.Clock();
 var camera, controls, scene, renderer;
 var mixer, skeletonHelper;
 var use_vr = false;
+var pause = false;
+var pause_time = 0;
+var pause_cnt = 0;
 init();
 animate();
 
@@ -12,7 +15,8 @@ var boneContainer = new THREE.Group();
 
 function load_bvh(filename){
 
-	loader.load( "/bvh_models/" + filename + ".bvh" , function ( result ) {
+	// Load predicted bvh file
+	loader.load( '/test_bvh_models/' + filename + '.bvh', function ( result ) {
 
 	skeletonHelper = new THREE.SkeletonHelper( result.skeleton.bones[ 0 ] );
 	skeletonHelper.skeleton = result.skeleton; // allow animation mixer to bind to SkeletonHelper directly
@@ -24,10 +28,12 @@ function load_bvh(filename){
 	scene.add( boneContainer );
 
 	// play animation
-	mixer = new THREE.AnimationMixer( skeletonHelper );
-	mixer.clipAction( result.clip ).setEffectiveWeight( 1.0 ).play();
 
-	} );
+		mixer = new THREE.AnimationMixer( skeletonHelper );
+		mixer.clipAction( result.clip ).setEffectiveWeight( 1.0 ).play();}
+	
+
+	 );
 
 }
 
@@ -72,23 +78,41 @@ function animate() {
 
 	requestAnimationFrame( animate );
 
-	var delta = clock.getDelta();
+	if(!pause) {
+		var delta = clock.getDelta();
+		document.getElementById("time").innerHTML = "Time left: " + parseInt(clock.elapsedTime - pause_time) + "/30 seconds"
 
-	if ( mixer ) mixer.update( delta );
+		if ( mixer ) mixer.update( delta );
 
-	if(use_vr){
-		effect.render(scene,camera);
+		if(use_vr){
+			effect.render(scene,camera);
+		}
+		else{
+			renderer.render( scene, camera );
+		}
+
 	}
-	else{
-		renderer.render( scene, camera );
-	}
+
+	else
+		pause_time += clock.getDelta();
+
+	if(clock.elapsedTime > 30) 
+		document.getElementById("submit_button").click();
+
 }
 
 
 var options_selected = []
 
+function toggle_pause(){
+
+	pause = !pause;
+	
+	pause_cnt += 1;
+
+}
+
 function toggle_vr(){
 	use_vr = !use_vr;
-
 }
 

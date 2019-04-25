@@ -19,9 +19,10 @@
 		</style>
 
 	</head>
-	<body>
+	<body style="background-color: white;">
 		<div id="info">
 		<h4 class="teal-text col l12 m12 s12"> Can you guess the action ?  </h4>
+			<p style="font-size: 19px;" id="time"></p> 
 		</div>
 		<script src="/js/three.js"></script>
 	    <script src="/js/StereoEffect.js"></script>
@@ -30,20 +31,53 @@
 		<script src="/js/render.js"></script>
 		<script >
 			var bvh = "<%= bvh %>";
-			console.log(bvh);
 			load_bvh(bvh);
 			// toggle_vr( "<%= use_vr %>" )
 		</script>
 
-
-		<div class="white-text" id="all_buttons">
+		<div style="top: 73%;  font-size:18px" class="white-text" id="all_buttons">
 			<form action="/submit_answer" method="post">
 				<input style="display: none;" type="text" value="<%= bvh %>" name="old_name" hint="Congrats you have found a bug.">
-				<div class="input-field col s12">
-					<input style="width:35%;" type="text" value="<%= new_name %>" name="new_name" class="validate">
+				<div class="input-field">
+					<p class="teal-text">
+						Guess the right action:
+					</p>
+					 <p>
+				      <label>
+				        <input name="guess" value="1" type="radio" />
+				        <span><%= bvh %></span>
+				      </label>
+<!-- 				    </p>
+				    <p> -->
+				      <label>
+				        <input name="guess" value="2" type="radio" />
+				        <span><%= bvh %></span>
+				      </label>
+				    </p>
+				    <p>
+				      <label>
+				        <input name="guess" value="3" type="radio"  />
+				        <span><%= bvh %></span>
+				      </label>
+<!-- 				    </p>
+				    <p> -->
+				      <label>
+				        <input name="guess" value="4" type="radio"/>
+				        <span><%= bvh %></span>
+				      </label>
+				    </p>
+				    <p>
+				      <label>
+				        <input name="guess" value="5" type="radio" checked />
+				        <span>None of these</span>
+				      </label>
+				    </p>
 				</div>
 
-				<input type="submit" class="btn" value="submit" name="submit">
+				<div class="input-field">
+					<input type="button" class="btn" value="Pause/Play" onclick="toggle_pause()">
+					<input type="submit" class="btn" value="submit" name="next" id="submit_button">
+				</div>	
 			</form>
 		</div>
 
